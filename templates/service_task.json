@@ -1,0 +1,63 @@
+[{
+  "name": "${container_name}",
+  "image": "${container_image}",
+  "memory": ${container_memory},
+  "cpu": ${container_cpu},
+  "environment": [
+    {
+      "name": "AWS_REGION",
+      "value": "${aws_region}"
+    },
+    {
+      "name": "AWS_ROUTE53_MAP_PUBLIC_IP",
+      "value": "${aws_route53_map_public_ip}"
+    },
+    {
+      "name": "AWS_ROUTE53_PRIVATE_ZONE",
+      "value": "${aws_route53_private_zone}"
+    },
+    {
+      "name": "AWS_ROUTE53_ZONE",
+      "value": "${aws_route53_zone}"
+    },
+    {
+      "name": "AWS_ROUTE53_RECORD",
+      "value": "${aws_route53_record}"
+    },
+    {
+      "name": "MAILCOW_IPSEC_PSK",
+      "value": "${mailcow_ipsec_psk}"
+    },
+    {
+      "name": "MAILCOW_USER",
+      "value": "${mailcow_username}"
+    },
+    {
+      "name": "MAILCOW_PASSWORD",
+      "value": "${mailcow_password}"
+    }
+  ],
+  "privileged": true,
+  "networkMode": "bridge",
+  "portMappings": [{
+    "hostPort": 80,
+    "containerPort": 80,
+    "protocol": "tcp"
+  }],
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-region": "${aws_logs_region}",
+      "awslogs-group": "${aws_logs_group}",
+      "awslogs-stream-prefix": "${aws_logs_stream_prefix}"
+    }
+  },
+  "mountPoints": [{
+    "sourceVolume": "modules",
+    "containerPath": "/lib/modules",
+    "readOnly": true
+  }, {
+    "ContainerPath": "/var/lib/docker",
+    "SourceVolume": "nfs-storage"
+  }]
+}]
